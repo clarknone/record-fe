@@ -1,23 +1,25 @@
 <template>
     <q-card>
-        <q-card-section>
-            <q-form @submit="submit">
+        <q-form @submit="submit">
+            <q-card-section>
                 <q-input v-model="formData.title" label="Title" />
                 <q-input v-model="formData.language" label="Language" />
                 <q-input v-model="formData.description" type="textarea" :min-row="2" label="Describtion" />
-            </q-form>
-        </q-card-section>
-        <q-card-actions>
-            <q-btn :label="isEdited ? 'Update' : 'Create'" :loading="formLoading" />
-        </q-card-actions>
+            </q-card-section>
+            <q-card-actions>
+                <q-btn type="submit" :label="isEdited ? 'Update' : 'Create'" :loading="isLoading" />
+            </q-card-actions>
+        </q-form>
     </q-card>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { IRecord } from '../../../interfaces/record';
-const formData = ref<{ title: string, description: string, language?: string }>({ title: "", description: "", language: "" })
-const formLoading = ref<boolean>(false)
+import { useMutation } from '@tanstack/vue-query'
+import { createRecord } from '../../../services/api/record';
+
+const formData = ref<IRecord>({ title: "", description: "", language: "" })
 
 const { record, isEdited = false } = defineProps<{ record?: IRecord, isEdited?: boolean }>()
 if (record?.id) {
@@ -26,7 +28,15 @@ if (record?.id) {
     formData.value.language = record.language
 }
 
+
+const { isLoading, isError, error, isSuccess, mutate } = useMutation({
+    mutationFn: (data: IRecord) => createRecord(data),
+    onSuccess: () => {
+        formData.value = { title: "", description: "", language: "" }
+    }
+})
 const submit = () => {
-    formLoading.value = true
+    mutate(formData.value)
+
 }
 </script>

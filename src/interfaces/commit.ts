@@ -1,9 +1,9 @@
 export interface ICommit {
-  title: string;
-  hash: string;
+  title?: string;
+  hash?: string;
   commit_hash: string;
-  previous_hash: string;
-  description: string;
-  id: number;
-  date: Date;
+  previous_hash?: string;
+  description?: string;
+  id?: number;
+  date?: Date;
 }

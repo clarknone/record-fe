@@ -1,26 +1,36 @@
 <template>
     <q-card>
-        <q-card-section>
-            <h6> {{ record?.title }} will be commited </h6>
-            <q-form @submit="submit">
+        <q-form @submit="submit">
+            <q-card-section>
+                <h6> {{ record?.title }} will be commited </h6>
                 <q-input v-model="formData.commit_hash" label="Commit Hash" />
-            </q-form>
-        </q-card-section>
-        <q-card-actions>
-            <q-btn label="Commit" :loading="formLoading" />
-        </q-card-actions>
+            </q-card-section>
+            <q-card-actions>
+                <q-btn type="submit" label="Commit" :loading="isLoading" />
+            </q-card-actions>
+        </q-form>
     </q-card>
 </template>
 
 <script lang="ts" setup>
+import { useMutation } from '@tanstack/vue-query';
 import { ref } from 'vue';
+import { ICommit } from '../../../interfaces/commit';
 import { IRecord } from '../../../interfaces/record';
-const formData = ref<{ commit_hash: string }>({ commit_hash: "" })
-const formLoading = ref<boolean>(false)
+import { createCommit } from '../../../services/api/commit';
 
+const formData = ref<ICommit>({ commit_hash: "" })
 const { record } = defineProps<{ record?: IRecord }>()
 
+
+const { isLoading, isError, error, isSuccess, mutate } = useMutation({
+    mutationFn: (data: ICommit) => createCommit(data),
+    onSuccess: () => {
+        formData.value = { commit_hash: "" }
+    }
+})
+
 const submit = () => {
-    formLoading.value = true
+    mutate(formData.value)
 }
 </script>

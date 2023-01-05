@@ -42,7 +42,7 @@
             <q-toolbar class="bg-primary text-white">
                 <q-toolbar-title> Commit Record </q-toolbar-title>
                 <q-space />
-                <q-btn icon="fas fa-times" round @click="()=>toggleCommitDialog()" />
+                <q-btn icon="fas fa-times" round @click="() => toggleCommitDialog()" />
             </q-toolbar>
             <AddCommit :record="activeRecord" />
         </div>
@@ -54,50 +54,32 @@ import SingleRecord from "../components/record/single/SingleRecord.vue";
 import SingleCommit from "../components/record/single/SingleCommit.vue";
 import AddRecord from "../components/record/modal/AddRecord.vue";
 import AddCommit from "../components/record/modal/AddCommit.vue";
+import { useQuery } from '@tanstack/vue-query'
 
 import { IRecord } from "../interfaces/record";
 import { ICommit } from "../interfaces/commit";
 import { ref } from "vue";
-
-const records: IRecord[] = [
-    {
-        title: "Build Project",
-        description: "this is the description for build project",
-        id: 2,
-        date_created: new Date(),
-    },
-    {
-        title: "Build Project 2",
-        description: "this is the description for build project 2",
-        id: 1,
-        date_created: new Date(),
-    },
-];
-const commits: ICommit[] = [
-    {
-        title: "Build Project",
-        hash: "AWRTR",
-        description: "this is the description for build project",
-        id: 2,
-        commit_hash: "AWRER",
-        previous_hash: "AWRER",
-        date: new Date(),
-    },
-    {
-        title: "Build Project2",
-        hash: "AWRTR",
-        description: "this is the description for build project2",
-        id: 1,
-        commit_hash: "AWRER",
-        previous_hash: "AWRER",
-        date: new Date(),
-    },
-];
+import { getRecord } from "../services/api/record";
+import { getCommit } from "../services/api/commit";
 
 const activeRecord = ref<IRecord>()
 const createDialog = ref<boolean>(false)
 const commitDialog = ref<boolean>(false)
 const isEditing = ref<boolean>(false)
+
+const { isLoading,  isError, data: records, error } = useQuery({
+    queryKey: ['record'],
+    queryFn: () => getRecord(),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+})
+
+const { isLoading: commitLoading, data: commits, error: commitError } = useQuery({
+    queryKey: ['commit'],
+    queryFn: () => getCommit(),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+})
 
 const openEditDialog: (record: IRecord) => void = (current: IRecord): void => {
     activeRecord.value = current

@@ -9,4 +9,5 @@
 
 <script lang="ts" setup>
 import AppBar from '../components/layout/AppBar.vue';
+import '../services/api/index'
 </script>
