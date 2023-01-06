@@ -16,8 +16,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { IRecord } from '../../../interfaces/record';
-import { useMutation } from '@tanstack/vue-query'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { createRecord } from '../../../services/api/record';
+
+
+const queryClient = useQueryClient()
 
 const formData = ref<IRecord>({ title: "", description: "", language: "" })
 
@@ -32,7 +35,9 @@ if (record?.id) {
 const { isLoading, isError, error, isSuccess, mutate } = useMutation({
     mutationFn: (data: IRecord) => createRecord(data),
     onSuccess: () => {
+        queryClient.invalidateQueries({queryKey:['record']})
         formData.value = { title: "", description: "", language: "" }
+
     }
 })
 const submit = () => {

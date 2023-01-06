@@ -7,12 +7,15 @@ import { VueQueryPlugin } from "@tanstack/vue-query";
 import quasarIconSet from "quasar/icon-set/fontawesome-v6";
 import "@quasar/extras/fontawesome-v6/fontawesome-v6.css";
 import router from "./routes";
+import { createPinia } from "pinia";
+
+const pinia = createPinia();
 
 const app = createApp(App);
-// const app = createApp({});
 
+app.use(pinia);
 app.use(router);
-app.use(VueQueryPlugin)
+app.use(VueQueryPlugin);
 
 app.use(Quasar, {
   plugins: {},

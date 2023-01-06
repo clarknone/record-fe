@@ -12,6 +12,7 @@
     "@quasar/extras": "^1.15.9",
     "@tanstack/vue-query": "^4.20.9",
     "axios": "^1.2.2",
+    "pinia": "^2.0.28",
     "quasar": "^2.11.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
