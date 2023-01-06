@@ -13,11 +13,13 @@
 </template>
 
 <script lang="ts" setup>
-import { useMutation } from '@tanstack/vue-query';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { ref } from 'vue';
 import { ICommit } from '../../../interfaces/commit';
 import { IRecord } from '../../../interfaces/record';
 import { createCommit } from '../../../services/api/commit';
+
+const queryClient = useQueryClient()
 
 const formData = ref<ICommit>({ commit_hash: "" })
 const { record } = defineProps<{ record?: IRecord }>()
@@ -26,11 +28,13 @@ const { record } = defineProps<{ record?: IRecord }>()
 const { isLoading, isError, error, isSuccess, mutate } = useMutation({
     mutationFn: (data: ICommit) => createCommit(data),
     onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['record'] })
+        queryClient.invalidateQueries({ queryKey: ['commit'] })
         formData.value = { commit_hash: "" }
     }
 })
 
 const submit = () => {
-    mutate(formData.value)
+    mutate({ ...formData.value, record_id: record?.id })
 }
 </script>
