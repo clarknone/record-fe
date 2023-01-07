@@ -17,29 +17,30 @@
 import { ref } from 'vue';
 import { IRecord } from '../../../interfaces/record';
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import { createRecord } from '../../../services/api/record';
+import { createRecord, updateRecord } from '../../../services/api/record';
 
 
 const queryClient = useQueryClient()
 
-const formData = ref<IRecord>({ title: "", description: "", language: "" })
+const formData = ref<IRecord>({ title: "", description: "", language: "", id: undefined })
 
 const { record, isEdited = false } = defineProps<{ record?: IRecord, isEdited?: boolean }>()
 if (record?.id) {
     formData.value.title = record.title
     formData.value.description = record.description
     formData.value.language = record.language
+    formData.value.id = record.id
 }
 
 
 const { isLoading, isError, error, isSuccess, mutate } = useMutation({
-    mutationFn: (data: IRecord) => createRecord(data),
+    mutationFn: (data: IRecord) => isEdited ? updateRecord(data) : createRecord(data),
     onSuccess: () => {
-        queryClient.invalidateQueries({queryKey:['record']})
+        queryClient.invalidateQueries({ queryKey: ['record'] })
         formData.value = { title: "", description: "", language: "" }
-
     }
 })
+
 const submit = () => {
     mutate(formData.value)
 

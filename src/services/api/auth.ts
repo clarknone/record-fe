@@ -6,7 +6,7 @@ const loginApi = async (user: AuthLogin): Promise<AuthUser> => {
     .post("/auth/login", user)
     .then((res) => res.data)
     .catch((e) => {
-      throw new Error(e.response || e.message);
+      throw new Error(e.response?.data?.error?.[0] || e.message);
     });
 };
 

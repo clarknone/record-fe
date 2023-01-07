@@ -5,6 +5,9 @@
                 <q-input v-model="formData.email" label="Email" type="email" required />
                 <q-input v-model="formData.password" label="Password" type="password" required />
             </q-card-section>
+            <q-banner v-if="errorMessage" class="bg-red text-white q-mx-md">
+                {{ errorMessage }}
+            </q-banner>
             <q-card-actions>
                 <q-btn type="submit" label="Login" :loading="isLoading" />
             </q-card-actions>
@@ -21,14 +24,17 @@ const emit = defineEmits<{ (e: "login",): void }>()
 
 const formData = ref<AuthLogin>({ email: "", password: "" })
 const isLoading = ref<boolean>(false)
+const errorMessage = ref<string>('')
 
 const { login } = useUser()
 
 const submit = () => {
+    errorMessage.value = ''
     login(formData.value).then(() => {
         emit("login")
     }).catch(e => {
-        console.log(e)
+        errorMessage.value = e.message
+        console.log(e.message)
     }).finally(() => {
         isLoading.value = false
     })
