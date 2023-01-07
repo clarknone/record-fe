@@ -20,5 +20,20 @@ const createRecord = async (data: IRecord) => {
       throw new Error(e.response?.data || e.message);
     });
 };
+const updateRecord = async (data: IRecord) => {
+  return axios
+    .put(`/record/${data.id}`, data)
+    .then((res) => res.data)
+    .catch((e) => {
+      // console.log(e);
+      throw new Error(e.response?.data || e.message);
+    });
+};
+const deleteRecord = async (data: IRecord) => {
+  return axios.delete(`/record/${data.id}`).catch((e) => {
+    // console.log(e);
+    throw new Error(e.response?.data || e.message);
+  });
+};
 
-export { getRecord, createRecord };
+export { getRecord, createRecord, updateRecord, deleteRecord };

@@ -7,7 +7,7 @@
                 <q-btn label="Login" @click="() => toggleDialog('login')" color="primary" />
                 <q-btn label="Create Account" @click="() => toggleDialog('signup')" color="primary" />
             </div>
-            <q-btn v-else label="Logout" @click="logout" color="primary" />
+            <q-btn v-else label="Logout" @click="logoutFunction" color="primary" />
         </q-toolbar>
     </q-header>
 
@@ -37,6 +37,7 @@
 
 
 <script lang="ts" setup>
+import { useQueryClient } from '@tanstack/vue-query';
 import { reactive } from 'vue';
 import { useUser } from '../../composables/user/auth';
 import { useAuthUserStore } from '../../store/user';
@@ -44,8 +45,15 @@ import Login from '../auth/login.vue';
 import Signup from '../auth/signup.vue';
 
 const authUserStore = useAuthUserStore()
+const queryClient = useQueryClient()
 
 const { logout } = useUser()
+
+const logoutFunction = () => {
+    logout()
+    queryClient.invalidateQueries()
+
+}
 
 const dialog = reactive<{ [index: string]: boolean }>({ login: false, signup: false })
 
