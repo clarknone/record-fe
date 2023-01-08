@@ -1,3 +1,5 @@
+import { IPaginatedAPIResponse } from "./query";
+
 export interface ICommit {
   title?: string;
   hash?: string;
@@ -7,4 +9,8 @@ export interface ICommit {
   description?: string;
   id?: number;
   date?: Date;
+}
+
+export interface IPaginatedGetAPIResponse extends IPaginatedAPIResponse {
+  results: ICommit[];
 }

@@ -1,9 +1,15 @@
 import axios from "axios";
-import { IRecord } from "../../interfaces/record";
+import { IFilter } from "../../interfaces/query";
+import { IPaginatedGetAPIResponse, IRecord } from "../../interfaces/record";
+import { clearNullFields } from "../util/misc";
 
-const getRecord = async (filter?: {}) => {
+const getRecord = async (
+  filter?: IFilter
+): Promise<IPaginatedGetAPIResponse> => {
+  let normilizedFilter = clearNullFields(filter);
+
   return axios
-    .get("/record", { params: filter })
+    .get("/record", { params: normilizedFilter })
     .then((res) => res.data)
     .catch((e) => {
       // console.log(e);
