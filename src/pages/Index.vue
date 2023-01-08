@@ -1,7 +1,7 @@
 <template>
     <q-page class="q-pa-md">
         <div>
-            <h4>Track and monitor project tasks</h4>
+            <h4>Track and monitor project tasks {{ records?.length }} </h4>
         </div>
         <div class="row q-col-gutter-md">
             <div class=" col-12 col-md-7">
@@ -54,32 +54,23 @@ import SingleRecord from "../components/record/single/SingleRecord.vue";
 import SingleCommit from "../components/record/single/SingleCommit.vue";
 import AddRecord from "../components/record/modal/AddRecord.vue";
 import AddCommit from "../components/record/modal/AddCommit.vue";
-import { useQuery } from '@tanstack/vue-query'
+import { useCommitQuery } from '../composables/record/commit'
+import { useRecordQuery } from '../composables/record/record'
 
 import { IRecord } from "../interfaces/record";
 import { ICommit } from "../interfaces/commit";
 import { ref } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 import { getRecord } from "../services/api/record";
-import { getCommit } from "../services/api/commit";
 
 const activeRecord = ref<IRecord>()
 const createDialog = ref<boolean>(false)
 const commitDialog = ref<boolean>(false)
 const isEditing = ref<boolean>(false)
 
-const { isLoading,  isError, data: records, error } = useQuery({
-    queryKey: ['record'],
-    queryFn: () => getRecord(),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-})
+const { isLoading, totalPage, data: records, error } = useRecordQuery({ limit: 5, page: 1 })
 
-const { isLoading: commitLoading, data: commits, error: commitError } = useQuery({
-    queryKey: ['commit'],
-    queryFn: () => getCommit(),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-})
+const { isLoading: commitLoading, data: commits, error: commitError } = useCommitQuery({ limit: 5, page: 1 })
 
 const openEditDialog: (record: IRecord) => void = (current: IRecord): void => {
     activeRecord.value = current

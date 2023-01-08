@@ -1,10 +1,12 @@
 import axios from "axios";
-import { ICommit } from "../../interfaces/commit";
-import { IRecord } from "../../interfaces/record";
+import { IPaginatedGetAPIResponse, ICommit } from "../../interfaces/commit";
+import { IFilter } from "../../interfaces/query";
+import { clearNullFields } from "../util/misc";
 
-const getCommit = async (filter?: {}): Promise<ICommit[]> => {
+const getCommit = async (filter?: IFilter): Promise<IPaginatedGetAPIResponse> => {
+  let normilizedFilter = clearNullFields(filter);
   return axios
-    .get("/record/commit", { params: filter })
+    .get("/record/commit", { params: normilizedFilter })
     .then((res) => res.data)
     .catch((e) => {
       console.log(e);
