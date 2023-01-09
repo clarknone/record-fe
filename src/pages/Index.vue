@@ -1,26 +1,36 @@
 <template>
     <q-page class="q-pa-md">
         <div>
-            <h4>Track and monitor project tasks {{ records?.length }} </h4>
+            <h4 class="text-right">Track and monitor project tasks </h4>
         </div>
-        <div class="row q-col-gutter-md">
-            <div class=" col-12 col-md-7">
+        <div class="row q-col-gutter-none">
+            <div class=" col-12">
                 <div class="row justify-between items-center">
                     <h6>Records</h6>
                     <div>
+                        <q-btn to="/record" label="View All" no-caps size="small" flat color="primary" />
                         <q-btn @click="toggleDialog" round flat icon="fas fa-plus" color="primary" />
                     </div>
                 </div>
-                <div class="column q-gutter-sm">
-                    <SingleRecord :commit-callback="() => toggleCommitDialog(record)"
-                        :edit-callback="() => openEditDialog(record)" :record="record" v-for="record in records"
-                        :key="record.id" />
+                <div class="row q-col-gutter-sm">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="record in records">
+                        <SingleRecord :commit-callback="() => toggleCommitDialog(record)"
+                            :edit-callback="() => openEditDialog(record)" :record="record" :key="record.id" />
+                    </div>
                 </div>
             </div>
-            <div class=" col-12 col-md-5">
-                <h6>Commits</h6>
-                <div class="column q-gutter-sm">
-                    <SingleCommit :commit="commit" v-for="commit in commits" :key="commit.id" />
+            <div class=" col-12 ">
+                <div class="row justify-between items-center">
+                    <h6>Commits</h6>
+                    <div>
+                        <q-btn to="/commit" label="View All" no-caps size="small" flat color="primary" />
+                    </div>
+                </div>
+                <div class="row q-col-gutter-sm">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3" v-for="commit in commits">
+                        <SingleCommit :commit="commit" :key="commit.id" />
+
+                    </div>
                 </div>
             </div>
         </div>
