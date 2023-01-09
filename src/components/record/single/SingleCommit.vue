@@ -2,9 +2,12 @@
 <template>
     <q-card>
         <q-card-section>
-            <h6 class="q-my-sm"> {{ commit.title }} </h6>
-            <p style="word-break:break-all;"> Previous Hash: {{ commit.previous_hash }} </p>
-            <p class="q-my-none" style="word-break:break-all;"> Hash: {{ commit.hash }} </p>
+            <p class="text-right">
+                <q-chip text-color="white" size="small" class="text-capitalize" :label="commit.language" color="accent"
+                    square />
+            </p>
+            <p class="q-my-none" style="text-overflow: ellipsis;overflow: hidden;"> Hash:{{ commit.hash }} </p>
+            <h6 class="q-my-sm q-mb-lg"> {{ commit.title }} </h6>
             <div class="row justify-between">
                 <p class="q-my-none"> Commit Hash: {{ commit.commit_hash }} </p>
                 <p> Date: {{ commit.date && new Date(commit.date).toLocaleDateString() }} </p>
