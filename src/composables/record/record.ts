@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { ref, watchEffect } from "vue";
 import { IFilter } from "../../interfaces/query";
 import { IRecord } from "../../interfaces/record";
-import { getRecord } from "../../services/api/record";
+import { deleteRecord, getRecord } from "../../services/api/record";
 
 export const useRecordQuery = (filter: IFilter = { page: 1, limit: 10 }) => {
   const totalPage = ref<number>(0);
   const records = ref<IRecord[]>([]);
-  
+
   const {
     isLoading: loading,
     data,
@@ -35,4 +35,17 @@ export const useRecordQuery = (filter: IFilter = { page: 1, limit: 10 }) => {
     data: records,
     error: error,
   };
+};
+
+export const useDeleteMutation = () => {
+  const queryClient = useQueryClient();
+
+  const { isLoading, isError, mutate } = useMutation({
+    mutationFn: (data: IRecord) => deleteRecord(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["record"] });
+    },
+  });
+
+  return { isLoading, isError, mutate };
 };
