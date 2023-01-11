@@ -11,12 +11,12 @@ const useUser = () => {
       axios.defaults.headers.common.Authorization = `Bearer ${user.token}`;
       authUserStore.auth(user);
     }
-};
+  };
 
-const logout = ()=>{
-      axios.defaults.headers.common.Authorization = '';
-      authUserStore.logout()
-  }
+  const logout = () => {
+    axios.defaults.headers.common.Authorization = "";
+    authUserStore.logout();
+  };
   const login = async (user: AuthLogin) => {
     return loginApi(user).then((data) => {
       auth(data);
@@ -36,7 +36,7 @@ const logout = ()=>{
     }
   };
 
-  return { login, signup, init, logout };
+  return { login, signup, init, logout, auth: authUserStore.authUser };
 };
 
 export { useUser };
