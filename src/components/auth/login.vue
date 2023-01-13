@@ -8,8 +8,8 @@
             <q-banner v-if="errorMessage" class="bg-red text-white q-mx-md">
                 {{ errorMessage }}
             </q-banner>
-            <q-card-actions>
-                <q-btn type="submit" label="Login" :loading="isLoading" />
+            <q-card-actions align="right">
+                <q-btn type="submit" color="primary" label="Login" :loading="isLoading" />
             </q-card-actions>
         </q-form>
     </q-card>
@@ -17,6 +17,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUser } from '../../composables/user/auth';
 import { AuthLogin } from '../../interfaces/auth'
 
@@ -26,11 +27,14 @@ const formData = ref<AuthLogin>({ email: "", password: "" })
 const isLoading = ref<boolean>(false)
 const errorMessage = ref<string>('')
 
+const router = useRouter()
+
 const { login } = useUser()
 
 const submit = () => {
     errorMessage.value = ''
     login(formData.value).then(() => {
+        router.push("/")
         emit("login")
     }).catch(e => {
         errorMessage.value = e.message

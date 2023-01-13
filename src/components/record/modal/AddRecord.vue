@@ -6,8 +6,8 @@
                 <q-input v-model="formData.language" label="Language" />
                 <q-input v-model="formData.description" type="textarea" :min-row="2" label="Describtion" />
             </q-card-section>
-            <q-card-actions>
-                <q-btn type="submit" :label="isEdited ? 'Update' : 'Create'" :loading="isLoading" />
+            <q-card-actions align="right" >
+                <q-btn type="submit"  color="primary" :label="isEdited ? 'Update' : 'Create'" :loading="isLoading" />
             </q-card-actions>
         </q-form>
     </q-card>

@@ -26,8 +26,6 @@ const authUserStore = useAuthUserStore()
 watchEffect(() => {
     if (!authUserStore.authUser.token) {
         router.push("/login")
-    } else {
-        router.push('/')
     }
 })
 
