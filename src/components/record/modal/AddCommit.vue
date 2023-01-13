@@ -5,8 +5,8 @@
                 <h6> {{ record?.title }} will be commited </h6>
                 <q-input v-model="formData.commit_hash" label="Commit Hash" />
             </q-card-section>
-            <q-card-actions>
-                <q-btn type="submit" label="Commit" :loading="isLoading" />
+            <q-card-actions align="right">
+                <q-btn type="submit" color="primary" label="Commit" :loading="isLoading" />
             </q-card-actions>
         </q-form>
     </q-card>

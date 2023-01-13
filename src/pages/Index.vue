@@ -1,7 +1,14 @@
 <template>
     <q-page class="q-pa-md">
-        <div>
-            <h4 class="text-right">Track and monitor project tasks </h4>
+        <div class="row justify-between items-start">
+            <div class="col-12 col-sm-6">
+                <h4 class="text-right">Track and monitor project tasks </h4>
+            </div>
+            <div class="col-12 col-sm-3">
+                <h5 class="text-right"> Quote of the Day <q-btn label="View All" flat color="accent" to="/quote" />
+                </h5>
+                <p> {{ quote?.text }} </p>
+            </div>
         </div>
         <div class="row q-col-gutter-none">
             <div class=" col-12">
@@ -66,9 +73,10 @@ import AddRecord from "../components/record/modal/AddRecord.vue";
 import AddCommit from "../components/record/modal/AddCommit.vue";
 import { useCommitQuery } from '../composables/record/commit'
 import { useRecordQuery } from '../composables/record/record'
+import { useTodayQuoteQuery } from '../composables/quote'
 
 import { IRecord } from "../interfaces/record";
-import { ICommit } from "../interfaces/commit";
+import { IQuote } from "../interfaces/quote";
 import { ref } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import { getRecord } from "../services/api/record";
@@ -79,7 +87,7 @@ const commitDialog = ref<boolean>(false)
 const isEditing = ref<boolean>(false)
 
 const { isLoading, totalPage, data: records, error } = useRecordQuery({ limit: 5, page: 1 })
-
+const { data: quote } = useTodayQuoteQuery()
 const { isLoading: commitLoading, data: commits, error: commitError } = useCommitQuery({ limit: 5, page: 1 })
 
 const openEditDialog: (record: IRecord) => void = (current: IRecord): void => {
