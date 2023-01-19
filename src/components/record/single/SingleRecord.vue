@@ -1,5 +1,5 @@
 <template>
-    <q-card>
+    <q-card style="height: 100%;">
         <q-card-section>
             <p class="text-right">
                 <q-chip text-color="white" size="small" class="text-capitalize" :label="record.language" color="accent"

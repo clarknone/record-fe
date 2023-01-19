@@ -1,7 +1,10 @@
 <template>
     <q-header>
         <q-toolbar>
-            <q-toolbar-title> Record </q-toolbar-title>
+            <q-toolbar-title>
+                <q-btn icon="fas fa-arrow-left" size="small" v-if="!isFirstPage" @click="router.back" />
+                Record
+            </q-toolbar-title>
             <q-space />
             <div v-if="!authUserStore.authUser.token" class="row">
                 <q-btn label="Login" @click="() => toggleDialog('login')" color="primary" />
@@ -39,6 +42,7 @@
 <script lang="ts" setup>
 import { useQueryClient } from '@tanstack/vue-query';
 import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUser } from '../../composables/user/auth';
 import { useAuthUserStore } from '../../store/user';
 import Login from '../auth/login.vue';
@@ -46,6 +50,8 @@ import Signup from '../auth/signup.vue';
 
 const authUserStore = useAuthUserStore()
 const queryClient = useQueryClient()
+
+const router = useRouter()
 
 const { logout } = useUser()
 
@@ -60,5 +66,7 @@ const dialog = reactive<{ [index: string]: boolean }>({ login: false, signup: fa
 const toggleDialog = (type: string) => {
     dialog[type] = !dialog[type]
 }
+
+const isFirstPage = history.length <1
 
 </script>

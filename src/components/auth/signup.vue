@@ -30,10 +30,10 @@ const router = useRouter()
 
 const submit = () => {
     signup(formData.value).then(() => {
-        router.push("/")
+        router.replace("/")
         emit("login")
     }).catch(e => {
-        console.log(e)
+        // console.log(e)
     }).finally(() => {
         isLoading.value = false
     })

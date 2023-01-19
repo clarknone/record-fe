@@ -34,11 +34,11 @@ const { login } = useUser()
 const submit = () => {
     errorMessage.value = ''
     login(formData.value).then(() => {
-        router.push("/")
+        router.replace("/")
         emit("login")
     }).catch(e => {
         errorMessage.value = e.message
-        console.log(e.message)
+        // console.log(e.message)
     }).finally(() => {
         isLoading.value = false
     })
