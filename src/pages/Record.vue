@@ -66,7 +66,6 @@ const activeRecord = ref<IRecord>()
 const isEditing = ref<boolean>(false)
 
 const toggleDialog = (type: string, record?: IRecord) => {
-    console.log({ record })
     if (record && !isEditing.value) {
         isEditing.value = true
         activeRecord.value = record

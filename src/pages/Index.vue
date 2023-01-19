@@ -2,12 +2,12 @@
     <q-page class="q-pa-md">
         <div class="row justify-between items-start">
             <div class="col-12 col-sm-6">
-                <h4 class="text-right">Track and monitor project tasks </h4>
+                <h4>Track and monitor project tasks </h4>
             </div>
             <div class="col-12 col-sm-3">
-                <h5 class="text-right"> Quote of the Day <q-btn label="View All" flat color="accent" to="/quote" />
-                </h5>
-                <p> {{ quote?.text }} </p>
+                <h6 class="q-mb-none text-right"> Quote of the Day <q-btn label="View All" size="small" flat color="accent" to="/quote" />
+                </h6>
+                <p> {{ quote?.text || "Nothing for today" }} </p>
             </div>
         </div>
         <div class="row q-col-gutter-none">

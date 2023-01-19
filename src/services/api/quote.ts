@@ -3,9 +3,7 @@ import { IFilter } from "../../interfaces/query";
 import { IPaginatedGetAPIResponse, IQuote } from "../../interfaces/quote";
 import { clearNullFields } from "../util/misc";
 
-const getQuotes = async (
-  filter?: IFilter
-): Promise<IPaginatedGetAPIResponse> => {
+const getQuotes = async (filter?: IFilter): Promise<IPaginatedGetAPIResponse> => {
   let normilizedFilter = clearNullFields(filter);
 
   return axios
@@ -17,11 +15,9 @@ const getQuotes = async (
     });
 };
 
-const getTodayQuote = async (filter?: IFilter): Promise<IQuote> => {
-  let normilizedFilter = clearNullFields(filter);
-
+const getTodayQuote = async (): Promise<IQuote> => {
   return axios
-    .get("/quote/today", { params: normilizedFilter })
+    .get("/quote/today")
     .then((res) => res.data)
     .catch((e) => {
       throw new Error(e.response?.data || e.message);

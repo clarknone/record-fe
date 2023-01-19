@@ -9,7 +9,7 @@ const getCommit = async (filter?: IFilter): Promise<IPaginatedGetAPIResponse> =>
     .get("/record/commit", { params: normilizedFilter })
     .then((res) => res.data)
     .catch((e) => {
-      console.log(e);
+      // console.log(e);
       throw new Error(e.response?.data || e.message);
     });
 };
@@ -19,7 +19,7 @@ const createCommit = async (data: ICommit) => {
     .post("/record/commit", data)
     .then((res) => res.data)
     .catch((e) => {
-      console.log(e);
+      // console.log(e);
       throw new Error(e.response?.data || e.message);
     });
 };

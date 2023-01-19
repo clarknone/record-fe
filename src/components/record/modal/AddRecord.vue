@@ -3,7 +3,7 @@
         <q-form @submit="submit">
             <q-card-section>
                 <q-input v-model="formData.title" label="Title" />
-                <q-input v-model="formData.language" label="Language" />
+                <q-input v-model="formData.language" label="Tag" />
                 <q-input v-model="formData.description" type="textarea" :min-row="2" label="Describtion" />
             </q-card-section>
             <q-card-actions align="right" >
